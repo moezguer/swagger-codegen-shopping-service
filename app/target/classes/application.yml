@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/shoppingdb?useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root1234
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    properties.hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+
+  springfox:
+    documentation:
+      swagger:
+        v2:
+          path: /api-docs
+
+  jackson:
+    date-format: io.swagger.RFC3339DateFormat
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+server:
+  port: 8080
+  servlet:
+    context-path: /moezguer/Shopping/v1

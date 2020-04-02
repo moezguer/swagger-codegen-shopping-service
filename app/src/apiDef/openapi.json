@@ -1,0 +1,1589 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Online Shopping",
+    "description": "This is a sample shopping server.\n",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "localhost:8080/moezguer/Shopping/v1",
+      "description": "local virtual server"
+    },
+    {
+      "url": "https://dev.swaggerhub.com/moezguer/Shopping/v1",
+      "description": "Development server"
+    },
+    {
+      "url": "https://stag.swaggerhub.com/moezguer/Shopping/v1",
+      "description": "Staging server"
+    },
+    {
+      "url": "https://prod.swaggerhub.com/moezguer/Shopping/v1",
+      "description": "Production server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "products"
+    },
+    {
+      "name": "customers"
+    },
+    {
+      "name": "items"
+    },
+    {
+      "name": "cart"
+    },
+    {
+      "name": "orders"
+    }
+  ],
+  "paths": {
+    "/products": {
+      "get": {
+        "tags": [
+          "products"
+        ],
+        "description": "Returns all the products",
+        "operationId": "getAllProducts",
+        "responses": {
+          "200": {
+            "description": "Successful product operations list response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                },
+                "examples": {
+                  "exProductResponseList": {
+                    "value": [
+                      {
+                        "id": "883c19ea-443f-42b3-80a9-ae5b98968c15",
+                        "title": "Hair Dryer",
+                        "price": 11.44,
+                        "currency": "TRY"
+                      },
+                      {
+                        "id": "c2c97cdd-642c-4d42-87a3-5a31f6cee511",
+                        "title": "Cleaner",
+                        "price": 6.8,
+                        "currency": "TRY"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "products"
+        ],
+        "description": "Adds product",
+        "operationId": "addProduct",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/productRequest"
+        },
+        "responses": {
+          "201": {
+            "description": "Successful product operations response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponse"
+                },
+                "examples": {
+                  "exProductResponse": {
+                    "value": {
+                      "id": "883c19ea-443f-42b3-80a9-ae5b98968c15",
+                      "title": "Hair Dryer",
+                      "price": 11.44,
+                      "currency": "TRY"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request invalid"
+          }
+        }
+      }
+    },
+    "/products/{productid}": {
+      "get": {
+        "tags": [
+          "products"
+        ],
+        "description": "Return product with the ID",
+        "operationId": "findProductById",
+        "parameters": [
+          {
+            "name": "productid",
+            "in": "path",
+            "description": "Product identifier.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "examples": {
+              "exProductId": {
+                "value": "883c19ea-443f-42b3-80a9-ae5b98968c15"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful product operations response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponse"
+                },
+                "examples": {
+                  "exProductResponse": {
+                    "value": {
+                      "id": "883c19ea-443f-42b3-80a9-ae5b98968c15",
+                      "title": "Hair Dryer",
+                      "price": 11.44,
+                      "currency": "TRY"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "ID not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "products"
+        ],
+        "description": "Updates product",
+        "operationId": "updateProducts",
+        "parameters": [
+          {
+            "name": "productid",
+            "in": "path",
+            "description": "Product identifier.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "examples": {
+              "exProductId": {
+                "value": "883c19ea-443f-42b3-80a9-ae5b98968c15"
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/productRequest"
+        },
+        "responses": {
+          "204": {
+            "description": "Successful product operations response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponse"
+                },
+                "examples": {
+                  "exProductResponse": {
+                    "value": {
+                      "id": "883c19ea-443f-42b3-80a9-ae5b98968c15",
+                      "title": "Hair Dryer",
+                      "price": 11.44,
+                      "currency": "TRY"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request invalid"
+          },
+          "404": {
+            "description": "ID not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "products"
+        ],
+        "description": "Deletes product by ID",
+        "operationId": "deleteProduct",
+        "parameters": [
+          {
+            "name": "productid",
+            "in": "path",
+            "description": "Product identifier.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "examples": {
+              "exProductId": {
+                "value": "883c19ea-443f-42b3-80a9-ae5b98968c15"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "205": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "ID not found"
+          }
+        }
+      }
+    },
+    "/products/import/list": {
+      "post": {
+        "tags": [
+          "products"
+        ],
+        "description": "imports products via list",
+        "operationId": "importProductsViaList",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/productRequestList"
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully imported"
+          },
+          "400": {
+            "description": "Request invalid"
+          }
+        }
+      }
+    },
+    "/products/import/file/csv": {
+      "post": {
+        "tags": [
+          "products"
+        ],
+        "description": "imports products via CSV file",
+        "operationId": "importProductsViaFile",
+        "requestBody": {
+          "content": {
+            "application/octet-stream": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully imported"
+          },
+          "400": {
+            "description": "Request invalid"
+          }
+        }
+      }
+    },
+    "/customers": {
+      "get": {
+        "tags": [
+          "customers"
+        ],
+        "description": "Returns all the customers",
+        "operationId": "getAllCustomers",
+        "responses": {
+          "200": {
+            "description": "Successful customer operations list response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CustomerResponse"
+                  }
+                },
+                "examples": {
+                  "exCustomerResponseList": {
+                    "value": [
+                      {
+                        "email": "example@gmail.com",
+                        "name": "Mamut",
+                        "surname": "Dayi"
+                      },
+                      {
+                        "email": "exampleeee@hotmail.com",
+                        "name": "Ahmet",
+                        "surname": "Emmi"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "customers"
+        ],
+        "description": "Updates customer",
+        "operationId": "updateCustomer",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/customerRequest"
+        },
+        "responses": {
+          "204": {
+            "description": "Successful customer operations response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerResponse"
+                },
+                "examples": {
+                  "exCustomerResponse": {
+                    "value": {
+                      "email": "example@gmail.com",
+                      "name": "Mamut",
+                      "surname": "Dayi"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request invalid"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "customers"
+        ],
+        "description": "Adds customer",
+        "operationId": "addCustomer",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/customerRequest"
+        },
+        "responses": {
+          "201": {
+            "description": "Successful customer operations response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerResponse"
+                },
+                "examples": {
+                  "exCustomerResponse": {
+                    "value": {
+                      "email": "example@gmail.com",
+                      "name": "Mamut",
+                      "surname": "Dayi"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request invalid"
+          }
+        }
+      }
+    },
+    "/customers/{customerid}": {
+      "get": {
+        "tags": [
+          "customers"
+        ],
+        "description": "Get customer by ID",
+        "operationId": "findCustomerById",
+        "parameters": [
+          {
+            "name": "customerid",
+            "in": "path",
+            "description": "Customer identifier.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            },
+            "examples": {
+              "exCustomerId": {
+                "value": "example@gmail.com"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful customer operations response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerResponse"
+                },
+                "examples": {
+                  "exCustomerResponse": {
+                    "value": {
+                      "email": "example@gmail.com",
+                      "name": "Mamut",
+                      "surname": "Dayi"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "ID not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "customers"
+        ],
+        "description": "Deletes customer by ID",
+        "operationId": "deleteCustomer",
+        "parameters": [
+          {
+            "name": "customerid",
+            "in": "path",
+            "description": "Customer identifier.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            },
+            "examples": {
+              "exCustomerId": {
+                "value": "example@gmail.com"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "205": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "ID not found"
+          }
+        }
+      }
+    },
+    "/customers/import/list": {
+      "post": {
+        "tags": [
+          "customers"
+        ],
+        "description": "Imports customer via list",
+        "operationId": "importCustomersViaList",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/customerRequestList"
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully imported"
+          },
+          "400": {
+            "description": "Request invalid"
+          }
+        }
+      }
+    },
+    "/customers/{customerid}/cart": {
+      "get": {
+        "tags": [
+          "cart"
+        ],
+        "description": "Returns all the items in the cart",
+        "operationId": "getAllItemsInCart",
+        "parameters": [
+          {
+            "name": "customerid",
+            "in": "path",
+            "description": "Customer identifier.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            },
+            "examples": {
+              "exCustomerId": {
+                "value": "example@gmail.com"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful cart operations response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartResponse"
+                },
+                "examples": {
+                  "exCartResponse": {
+                    "value": {
+                      "cartItems": [
+                        {
+                          "productId": "883c19ea-443f-42b3-80a9-ae5b98968c15",
+                          "quantity": 2
+                        },
+                        {
+                          "productId": "c2c97cdd-642c-4d42-87a3-5a31f6cee511",
+                          "quantity": 4
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "ID not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "cart"
+        ],
+        "description": "Clear all the items in the cart",
+        "operationId": "clearCart",
+        "parameters": [
+          {
+            "name": "customerid",
+            "in": "path",
+            "description": "Customer identifier.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            },
+            "examples": {
+              "exCustomerId": {
+                "value": "example@gmail.com"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "205": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "ID not found"
+          }
+        }
+      }
+    },
+    "/customers/{customerid}/cart/items/": {
+      "post": {
+        "tags": [
+          "items"
+        ],
+        "description": "adds item to the cart",
+        "operationId": "addItemToCart",
+        "parameters": [
+          {
+            "name": "customerid",
+            "in": "path",
+            "description": "Customer identifier.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            },
+            "examples": {
+              "exCustomerId": {
+                "value": "example@gmail.com"
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/itemRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "Successful cart operations response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartResponse"
+                },
+                "examples": {
+                  "exCartResponse": {
+                    "value": {
+                      "cartItems": [
+                        {
+                          "productId": "883c19ea-443f-42b3-80a9-ae5b98968c15",
+                          "quantity": 2
+                        },
+                        {
+                          "productId": "c2c97cdd-642c-4d42-87a3-5a31f6cee511",
+                          "quantity": 4
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request invalid"
+          }
+        }
+      }
+    },
+    "/customers/{customerid}/cart/items/{productid}": {
+      "delete": {
+        "tags": [
+          "items"
+        ],
+        "description": "Deletes item from cart",
+        "operationId": "deleteItemFromCart",
+        "parameters": [
+          {
+            "name": "customerid",
+            "in": "path",
+            "description": "Customer identifier.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            },
+            "examples": {
+              "exCustomerId": {
+                "value": "example@gmail.com"
+              }
+            }
+          },
+          {
+            "name": "productid",
+            "in": "path",
+            "description": "Product identifier.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "examples": {
+              "exProductId": {
+                "value": "883c19ea-443f-42b3-80a9-ae5b98968c15"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "205": {
+            "description": "Successful cart operations response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartResponse"
+                },
+                "examples": {
+                  "exCartResponse": {
+                    "value": {
+                      "cartItems": [
+                        {
+                          "productId": "883c19ea-443f-42b3-80a9-ae5b98968c15",
+                          "quantity": 2
+                        },
+                        {
+                          "productId": "c2c97cdd-642c-4d42-87a3-5a31f6cee511",
+                          "quantity": 4
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "ID not found"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "items"
+        ],
+        "description": "Changes the quantity of item in the cart",
+        "operationId": "updateItemQuantity",
+        "parameters": [
+          {
+            "name": "customerid",
+            "in": "path",
+            "description": "Customer identifier.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            },
+            "examples": {
+              "exCustomerId": {
+                "value": "example@gmail.com"
+              }
+            }
+          },
+          {
+            "name": "productid",
+            "in": "path",
+            "description": "Product identifier.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "examples": {
+              "exProductId": {
+                "value": "883c19ea-443f-42b3-80a9-ae5b98968c15"
+              }
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful cart operations response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartResponse"
+                },
+                "examples": {
+                  "exCartResponse": {
+                    "value": {
+                      "cartItems": [
+                        {
+                          "productId": "883c19ea-443f-42b3-80a9-ae5b98968c15",
+                          "quantity": 2
+                        },
+                        {
+                          "productId": "c2c97cdd-642c-4d42-87a3-5a31f6cee511",
+                          "quantity": 4
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "ID not found"
+          }
+        }
+      }
+    },
+    "/customers/{customerid}/cart/checkout": {
+      "post": {
+        "tags": [
+          "cart"
+        ],
+        "description": "Converts the cart into an order",
+        "operationId": "placeOrder",
+        "parameters": [
+          {
+            "name": "customerid",
+            "in": "path",
+            "description": "Customer identifier.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            },
+            "examples": {
+              "exCustomerId": {
+                "value": "example@gmail.com"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful order operations response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                },
+                "examples": {
+                  "exOrderResponse": {
+                    "value": {
+                      "id": "2bfdd7d4-fcaa-4896-877e-78eb2ffcc9b5",
+                      "dateTime": "2017-07-21T17:32:28Z",
+                      "orderItems": [
+                        {
+                          "productId": "883c19ea-443f-42b3-80a9-ae5b98968c15",
+                          "quantity": 2
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "ID not found"
+          }
+        }
+      }
+    },
+    "/customers/{customerid}/orders": {
+      "get": {
+        "tags": [
+          "orders"
+        ],
+        "description": "Returns all orders of a customer",
+        "operationId": "getAllOrdersOfCustomer",
+        "parameters": [
+          {
+            "name": "customerid",
+            "in": "path",
+            "description": "Customer identifier.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            },
+            "examples": {
+              "exCustomerId": {
+                "value": "example@gmail.com"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful order operations list response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OrderResponse"
+                  }
+                },
+                "examples": {
+                  "exOrderResponseList": {
+                    "value": [
+                      {
+                        "id": "2bfdd7d4-fcaa-4896-877e-78eb2ffcc9b5",
+                        "dateTime": "2017-07-21T17:32:28Z",
+                        "orderItems": [
+                          {
+                            "productId": "883c19ea-443f-42b3-80a9-ae5b98968c15",
+                            "quantity": 2
+                          },
+                          {
+                            "productId": "c2c97cdd-642c-4d42-87a3-5a31f6cee511",
+                            "quantity": 4
+                          }
+                        ]
+                      },
+                      {
+                        "id": "2bfdd7d4-fcaa-4896-877e-78eb2ffcc9b5",
+                        "dateTime": "2017-07-21T17:32:28Z",
+                        "orderItems": [
+                          {
+                            "productId": "883c19ea-443f-42b3-80a9-ae5b98968c15",
+                            "quantity": 2
+                          },
+                          {
+                            "productId": "c2c97cdd-642c-4d42-87a3-5a31f6cee511",
+                            "quantity": 4
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "ID not found"
+          }
+        }
+      }
+    },
+    "/customers/{customerid}/orders/{orderid}": {
+      "get": {
+        "tags": [
+          "orders"
+        ],
+        "description": "Returns the order of a customer by order ID",
+        "operationId": "getOrderOfCustomerById",
+        "parameters": [
+          {
+            "name": "customerid",
+            "in": "path",
+            "description": "Customer identifier.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            },
+            "examples": {
+              "exCustomerId": {
+                "value": "example@gmail.com"
+              }
+            }
+          },
+          {
+            "name": "orderid",
+            "in": "path",
+            "description": "Order identifier.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "examples": {
+              "exProductId": {
+                "value": "2bfdd7d4-fcaa-4896-877e-78eb2ffcc9b5"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful order operations response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                },
+                "examples": {
+                  "exOrderResponse": {
+                    "value": {
+                      "id": "2bfdd7d4-fcaa-4896-877e-78eb2ffcc9b5",
+                      "dateTime": "2017-07-21T17:32:28Z",
+                      "orderItems": [
+                        {
+                          "productId": "883c19ea-443f-42b3-80a9-ae5b98968c15",
+                          "quantity": 2
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "ID not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Currency": {
+        "type": "string",
+        "default": "TRY",
+        "enum": [
+          "TRY",
+          "EUR",
+          "USD"
+        ]
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "maximum": 80,
+            "minimum": 2,
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "currency": {
+            "$ref": "#/components/schemas/Currency"
+          }
+        }
+      },
+      "ProductRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "maximum": 80,
+            "minimum": 2,
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "currency": {
+            "$ref": "#/components/schemas/Currency"
+          }
+        }
+      },
+      "ProductResponse": {
+        "$ref": "#/components/schemas/Product"
+      },
+      "Item": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ItemRequest": {
+        "$ref": "#/components/schemas/Item"
+      },
+      "ItemResponse": {
+        "$ref": "#/components/schemas/Item"
+      },
+      "Customer": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "name": {
+            "type": "string"
+          },
+          "surname": {
+            "type": "string"
+          }
+        }
+      },
+      "CustomerRequest": {
+        "$ref": "#/components/schemas/Customer"
+      },
+      "CustomerResponse": {
+        "$ref": "#/components/schemas/Customer"
+      },
+      "Cart": {
+        "type": "object",
+        "properties": {
+          "cartItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Item"
+            }
+          }
+        }
+      },
+      "CartResponse": {
+        "$ref": "#/components/schemas/Cart"
+      },
+      "Order": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "orderItem": {
+            "$ref": "#/components/schemas/Cart"
+          }
+        }
+      },
+      "OrderResponse": {
+        "$ref": "#/components/schemas/Order"
+      }
+    },
+    "responses": {
+      "404NotFound": {
+        "description": "ID not found"
+      },
+      "400BadRequest": {
+        "description": "Request invalid"
+      },
+      "productResponse": {
+        "description": "Successful product operations response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ProductResponse"
+            },
+            "examples": {
+              "exProductResponse": {
+                "value": {
+                  "id": "883c19ea-443f-42b3-80a9-ae5b98968c15",
+                  "title": "Hair Dryer",
+                  "price": 11.44,
+                  "currency": "TRY"
+                }
+              }
+            }
+          }
+        }
+      },
+      "productResponseList": {
+        "description": "Successful product operations list response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Product"
+              }
+            },
+            "examples": {
+              "exProductResponseList": {
+                "value": [
+                  {
+                    "id": "883c19ea-443f-42b3-80a9-ae5b98968c15",
+                    "title": "Hair Dryer",
+                    "price": 11.44,
+                    "currency": "TRY"
+                  },
+                  {
+                    "id": "c2c97cdd-642c-4d42-87a3-5a31f6cee511",
+                    "title": "Cleaner",
+                    "price": 6.8,
+                    "currency": "TRY"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "customerResponse": {
+        "description": "Successful customer operations response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CustomerResponse"
+            },
+            "examples": {
+              "exCustomerResponse": {
+                "value": {
+                  "email": "example@gmail.com",
+                  "name": "Mamut",
+                  "surname": "Dayi"
+                }
+              }
+            }
+          }
+        }
+      },
+      "customerResponseList": {
+        "description": "Successful customer operations list response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CustomerResponse"
+              }
+            },
+            "examples": {
+              "exCustomerResponseList": {
+                "value": [
+                  {
+                    "email": "example@gmail.com",
+                    "name": "Mamut",
+                    "surname": "Dayi"
+                  },
+                  {
+                    "email": "exampleeee@hotmail.com",
+                    "name": "Ahmet",
+                    "surname": "Emmi"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "itemResponse": {
+        "description": "Successful item operations response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ItemResponse"
+            },
+            "examples": {
+              "exItemResponse": {
+                "value": {
+                  "productId": "883c19ea-443f-42b3-80a9-ae5b98968c15",
+                  "quantity": 2
+                }
+              }
+            }
+          }
+        }
+      },
+      "cartResponse": {
+        "description": "Successful cart operations response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CartResponse"
+            },
+            "examples": {
+              "exCartResponse": {
+                "value": {
+                  "cartItems": [
+                    {
+                      "productId": "883c19ea-443f-42b3-80a9-ae5b98968c15",
+                      "quantity": 2
+                    },
+                    {
+                      "productId": "c2c97cdd-642c-4d42-87a3-5a31f6cee511",
+                      "quantity": 4
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "orderResponse": {
+        "description": "Successful order operations response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OrderResponse"
+            },
+            "examples": {
+              "exOrderResponse": {
+                "value": {
+                  "id": "2bfdd7d4-fcaa-4896-877e-78eb2ffcc9b5",
+                  "dateTime": "2017-07-21T17:32:28Z",
+                  "orderItems": [
+                    {
+                      "productId": "883c19ea-443f-42b3-80a9-ae5b98968c15",
+                      "quantity": 2
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "orderResponseList": {
+        "description": "Successful order operations list response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/OrderResponse"
+              }
+            },
+            "examples": {
+              "exOrderResponseList": {
+                "value": [
+                  {
+                    "id": "2bfdd7d4-fcaa-4896-877e-78eb2ffcc9b5",
+                    "dateTime": "2017-07-21T17:32:28Z",
+                    "orderItems": [
+                      {
+                        "productId": "883c19ea-443f-42b3-80a9-ae5b98968c15",
+                        "quantity": 2
+                      },
+                      {
+                        "productId": "c2c97cdd-642c-4d42-87a3-5a31f6cee511",
+                        "quantity": 4
+                      }
+                    ]
+                  },
+                  {
+                    "id": "2bfdd7d4-fcaa-4896-877e-78eb2ffcc9b5",
+                    "dateTime": "2017-07-21T17:32:28Z",
+                    "orderItems": [
+                      {
+                        "productId": "883c19ea-443f-42b3-80a9-ae5b98968c15",
+                        "quantity": 2
+                      },
+                      {
+                        "productId": "c2c97cdd-642c-4d42-87a3-5a31f6cee511",
+                        "quantity": 4
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "productId": {
+        "name": "productid",
+        "in": "path",
+        "description": "Product identifier.",
+        "required": true,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "examples": {
+          "exProductId": {
+            "value": "883c19ea-443f-42b3-80a9-ae5b98968c15"
+          }
+        }
+      },
+      "customerId": {
+        "name": "customerid",
+        "in": "path",
+        "description": "Customer identifier.",
+        "required": true,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "format": "email"
+        },
+        "examples": {
+          "exCustomerId": {
+            "value": "example@gmail.com"
+          }
+        }
+      },
+      "itemId": {
+        "name": "itemid",
+        "in": "path",
+        "description": "Item identifier.",
+        "required": true,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "number",
+          "format": "int32"
+        },
+        "examples": {
+          "exItemId": {
+            "value": "2bfdd7d4-fcaa-4896-877e-78eb2ffcc9b5"
+          }
+        }
+      },
+      "orderId": {
+        "name": "orderid",
+        "in": "path",
+        "description": "Order identifier.",
+        "required": true,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "examples": {
+          "exProductId": {
+            "value": "2bfdd7d4-fcaa-4896-877e-78eb2ffcc9b5"
+          }
+        }
+      }
+    },
+    "requestBodies": {
+      "productRequest": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ProductRequest"
+            },
+            "examples": {
+              "exProductRequest": {
+                "value": {
+                  "title": "Hair Dryer",
+                  "price": 11.44,
+                  "currency": "TRY"
+                }
+              }
+            }
+          }
+        },
+        "required": true
+      },
+      "productRequestList": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ProductRequest"
+              }
+            },
+            "examples": {
+              "exProductRequestList": {
+                "value": [
+                  {
+                    "title": "Hair Dryer",
+                    "price": 11.44,
+                    "currency": "TRY"
+                  },
+                  {
+                    "title": "Cleaner",
+                    "price": 6.8,
+                    "currency": "TRY"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "required": true
+      },
+      "customerRequest": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CustomerRequest"
+            },
+            "examples": {
+              "exCustomerRequest": {
+                "value": {
+                  "email": "example@gmail.com",
+                  "name": "Mamut",
+                  "surname": "Dayi"
+                }
+              }
+            }
+          }
+        },
+        "required": true
+      },
+      "customerRequestList": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CustomerRequest"
+              }
+            },
+            "examples": {
+              "exCustomerRequestList": {
+                "value": [
+                  {
+                    "email": "example@gmail.com",
+                    "name": "Mamut",
+                    "surname": "Dayi"
+                  },
+                  {
+                    "email": "exampleeee@hotmail.com",
+                    "name": "Ahmet",
+                    "surname": "Emmi"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "required": true
+      },
+      "itemRequest": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ItemRequest"
+            },
+            "examples": {
+              "exItemRequest": {
+                "value": {
+                  "productId": "883c19ea-443f-42b3-80a9-ae5b98968c15",
+                  "quantity": 2
+                }
+              }
+            }
+          }
+        },
+        "required": true
+      }
+    }
+  }
+}
