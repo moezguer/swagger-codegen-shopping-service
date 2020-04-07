@@ -16,17 +16,17 @@
 ## Features
 It is a sample rest API implementation with the features below;
 
--Mysql
--H2 DB used for unit tests
--Docker is used for easy setup
--CRUD operations
--Service-Oriented Architecture
--JPA
--Maven checkstyle Plugin
--Postman
--SpringBoot
--Data import via CSV
--Sample study database for products
+  -Mysql
+  -H2 DB used for unit tests
+  -Docker is used for easy setup
+  -CRUD operations
+  -Service-Oriented Architecture
+  -JPA
+  -Maven checkstyle Plugin
+  -Postman
+  -SpringBoot
+  -Data import via CSV
+  -Sample study database for products
 
 ---
 
