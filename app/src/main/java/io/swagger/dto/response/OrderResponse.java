@@ -37,8 +37,7 @@ public class OrderResponse {
      **/
     @ApiModelProperty(value = "")
 
-    @Valid
-    public UUID getId() {
+    @Valid public UUID getId() {
         return id;
     }
 
@@ -58,8 +57,7 @@ public class OrderResponse {
      **/
     @ApiModelProperty(value = "")
 
-    @Valid
-    public OffsetDateTime getDateTime() {
+    @Valid public OffsetDateTime getDateTime() {
         return dateTime;
     }
 
@@ -79,8 +77,7 @@ public class OrderResponse {
      **/
     @ApiModelProperty(value = "")
 
-    @Valid
-    public CartResponse getOrderItems() {
+    @Valid public CartResponse getOrderItems() {
         return orderItems;
     }
 
@@ -89,8 +86,7 @@ public class OrderResponse {
     }
 
 
-    @Override
-    public boolean equals(java.lang.Object o) {
+    @Override public boolean equals(java.lang.Object o) {
         if (this == o) {
             return true;
         }
@@ -102,19 +98,23 @@ public class OrderResponse {
                Objects.equals(this.orderItems, orderResponse.orderItems);
     }
 
-    @Override
-    public int hashCode() {
+    @Override public int hashCode() {
         return Objects.hash(id, dateTime, orderItems);
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("class OrderResponse {\n");
 
-        sb.append("    id: ").append(toIndentedString(id)).append("\n");
-        sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
-        sb.append("    orderItems: ").append(toIndentedString(orderItems)).append("\n");
+        sb.append("    id: ")
+          .append(toIndentedString(id))
+          .append("\n");
+        sb.append("    dateTime: ")
+          .append(toIndentedString(dateTime))
+          .append("\n");
+        sb.append("    orderItems: ")
+          .append(toIndentedString(orderItems))
+          .append("\n");
         sb.append("}");
         return sb.toString();
     }
@@ -127,6 +127,7 @@ public class OrderResponse {
         if (o == null) {
             return "null";
         }
-        return o.toString().replace("\n", "\n    ");
+        return o.toString()
+                .replace("\n", "\n    ");
     }
 }

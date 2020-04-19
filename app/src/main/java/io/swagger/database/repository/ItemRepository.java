@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface ItemRepository extends JpaRepository <ItemEntity, UUID> {
+public interface ItemRepository extends JpaRepository<ItemEntity, UUID> {
 
-    List<ItemEntity> getItemEntitiesByCart_Customer_Email(String email);
+    List<ItemEntity> findItemEntitiesByCart_Customer_Email(String email);
 
-    ItemEntity getItemEntityByCart_Customer_EmailAndProduct_Id(String email, UUID product);
+    List<ItemEntity> findItemEntityByCart_Customer_EmailAndProduct_Id(String email, UUID product);
 }

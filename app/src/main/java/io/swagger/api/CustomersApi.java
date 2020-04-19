@@ -10,10 +10,10 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import io.swagger.dto.response.CartResponse;
 import io.swagger.dto.request.CustomerRequest;
-import io.swagger.dto.response.CustomerResponse;
 import io.swagger.dto.request.ItemRequest;
+import io.swagger.dto.response.CartResponse;
+import io.swagger.dto.response.CustomerResponse;
 import io.swagger.dto.response.OrderResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,168 +24,228 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-27T16:32:59.829Z[GMT]")
-@Api(value = "customers", description = "the customers API")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
+                            date = "2020-03-27T16:32:59.829Z[GMT]")
+@Api(value = "customers",
+     description = "the customers API")
 public interface CustomersApi {
 
-    @ApiOperation(value = "", nickname = "addCustomer", notes = "Adds customer", response = CustomerResponse.class, tags = {"customers",})
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful customer operations response", response = CustomerResponse.class),
-            @ApiResponse(code = 400, message = "Request invalid")})
-    @RequestMapping(value = "/customers",
-            produces = {"application/json"},
-            consumes = {"application/json"},
-            method = RequestMethod.POST)
-    ResponseEntity<CustomerResponse> addCustomer(@ApiParam(value = "", required = true) @Valid @RequestBody CustomerRequest body
-    );
+    @ApiOperation(value = "",
+                  nickname = "addCustomer",
+                  notes = "Adds customer",
+                  response = CustomerResponse.class,
+                  tags = {"customers",}) @ApiResponses(value = {@ApiResponse(code = 201,
+                                                                             message = "Successful customer operations response",
+                                                                             response = CustomerResponse.class),
+            @ApiResponse(code = 400,
+                         message = "Request invalid")}) @RequestMapping(value = "/customers",
+                                                                        produces = {"application/json"},
+                                                                        consumes = {"application/json"},
+                                                                        method = RequestMethod.POST)
+    ResponseEntity<CustomerResponse> addCustomer(@ApiParam(value = "",
+                                                           required = true) @Valid @RequestBody CustomerRequest body);
 
 
-    @ApiOperation(value = "", nickname = "addItemToCart", notes = "adds item to the cart", response = CartResponse.class, tags = {"items",})
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful cart operations response", response = CartResponse.class),
-            @ApiResponse(code = 400, message = "Request invalid")})
-    @RequestMapping(value = "/customers/{customerid}/cart/items/",
-            produces = {"application/json"},
-            consumes = {"application/json"},
-            method = RequestMethod.POST)
-    ResponseEntity<CartResponse> addItemToCart(@ApiParam(value = "", required = true) @Valid @RequestBody ItemRequest body
-            , @ApiParam(value = "Customer identifier.", required = true) @PathVariable("customerid") String customerid
-    );
+    @ApiOperation(value = "",
+                  nickname = "addItemToCart",
+                  notes = "adds item to the cart",
+                  response = CartResponse.class,
+                  tags = {"items",}) @ApiResponses(value = {@ApiResponse(code = 200,
+                                                                         message = "Successful cart operations response",
+                                                                         response = CartResponse.class),
+            @ApiResponse(code = 400,
+                         message = "Request invalid")}) @RequestMapping(value = "/customers/{customerid}/cart/items/",
+                                                                        produces = {"application/json"},
+                                                                        consumes = {"application/json"},
+                                                                        method = RequestMethod.POST)
+    ResponseEntity<CartResponse> addItemToCart(@ApiParam(value = "",
+                                                         required = true) @Valid @RequestBody ItemRequest body,
+                                               @ApiParam(value = "Customer identifier.",
+                                                         required = true) @PathVariable("customerid") String customerid);
 
 
-    @ApiOperation(value = "", nickname = "clearCart", notes = "Clear all the items in the cart", tags = {"cart",})
-    @ApiResponses(value = {
-            @ApiResponse(code = 205, message = "OK"),
-            @ApiResponse(code = 404, message = "ID not found")})
+    @ApiOperation(value = "",
+                  nickname = "clearCart",
+                  notes = "Clear all the items in the cart",
+                  tags = {"cart",}) @ApiResponses(value = {@ApiResponse(code = 205,
+                                                                        message = "OK"), @ApiResponse(code = 404,
+                                                                                                      message = "ID not found")})
     @RequestMapping(value = "/customers/{customerid}/cart",
-            method = RequestMethod.DELETE)
-    ResponseEntity<Void> clearCart(@ApiParam(value = "Customer identifier.", required = true) @PathVariable("customerid") String customerid
-    );
+                    method = RequestMethod.DELETE) ResponseEntity<Void> clearCart(
+            @ApiParam(value = "Customer identifier.",
+                      required = true) @PathVariable("customerid") String customerid);
 
 
-    @ApiOperation(value = "", nickname = "deleteCustomer", notes = "Deletes customer by ID", tags = {"customers",})
-    @ApiResponses(value = {
-            @ApiResponse(code = 205, message = "OK"),
-            @ApiResponse(code = 404, message = "ID not found")})
+    @ApiOperation(value = "",
+                  nickname = "deleteCustomer",
+                  notes = "Deletes customer by ID",
+                  tags = {"customers",}) @ApiResponses(value = {@ApiResponse(code = 205,
+                                                                             message = "OK"), @ApiResponse(code = 404,
+                                                                                                           message = "ID not found")})
     @RequestMapping(value = "/customers/{customerid}",
-            method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteCustomer(@ApiParam(value = "Customer identifier.", required = true) @PathVariable("customerid") String customerid
-    );
+                    method = RequestMethod.DELETE) ResponseEntity<Void> deleteCustomer(
+            @ApiParam(value = "Customer identifier.",
+                      required = true) @PathVariable("customerid") String customerid);
 
 
-    @ApiOperation(value = "", nickname = "deleteItemFromCart", notes = "Deletes item from cart", response = CartResponse.class, tags = {"items",})
-    @ApiResponses(value = {
-            @ApiResponse(code = 205, message = "Successful cart operations response", response = CartResponse.class),
-            @ApiResponse(code = 404, message = "ID not found")})
+    @ApiOperation(value = "",
+                  nickname = "deleteItemFromCart",
+                  notes = "Deletes item from cart",
+                  response = CartResponse.class,
+                  tags = {"items",}) @ApiResponses(value = {@ApiResponse(code = 205,
+                                                                         message = "Successful cart operations response",
+                                                                         response = CartResponse.class),
+            @ApiResponse(code = 404,
+                         message = "ID not found")})
     @RequestMapping(value = "/customers/{customerid}/cart/items/{productid}",
-            produces = {"application/json"},
-            method = RequestMethod.DELETE)
-    ResponseEntity<CartResponse> deleteItemFromCart(@ApiParam(value = "Customer identifier.", required = true) @PathVariable("customerid") String customerid
-            , @ApiParam(value = "Product identifier.", required = true) @PathVariable("productid") UUID productid
-    );
+                    produces = {"application/json"},
+                    method = RequestMethod.DELETE) ResponseEntity<CartResponse> deleteItemFromCart(
+            @ApiParam(value = "Customer identifier.",
+                      required = true) @PathVariable("customerid") String customerid,
+            @ApiParam(value = "Product identifier.",
+                      required = true) @PathVariable("productid") UUID productid);
 
 
-    @ApiOperation(value = "", nickname = "findCustomerById", notes = "Get customer by ID", response = CustomerResponse.class, tags = {"customers",})
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful customer operations response", response = CustomerResponse.class),
-            @ApiResponse(code = 404, message = "ID not found")})
-    @RequestMapping(value = "/customers/{customerid}",
-            produces = {"application/json"},
-            method = RequestMethod.GET)
-    ResponseEntity<CustomerResponse> findCustomerById(@ApiParam(value = "Customer identifier.", required = true) @PathVariable("customerid") String customerid
-    );
+    @ApiOperation(value = "",
+                  nickname = "findCustomerById",
+                  notes = "Get customer by ID",
+                  response = CustomerResponse.class,
+                  tags = {"customers",}) @ApiResponses(value = {@ApiResponse(code = 200,
+                                                                             message = "Successful customer operations response",
+                                                                             response = CustomerResponse.class),
+            @ApiResponse(code = 404,
+                         message = "ID not found")}) @RequestMapping(value = "/customers/{customerid}",
+                                                                     produces = {"application/json"},
+                                                                     method = RequestMethod.GET)
+    ResponseEntity<CustomerResponse> findCustomerById(@ApiParam(value = "Customer identifier.",
+                                                                required = true) @PathVariable("customerid") String customerid);
 
 
-    @ApiOperation(value = "", nickname = "getAllCustomers", notes = "Returns all the customers", response = CustomerResponse.class, responseContainer = "List", tags = {"customers",})
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful customer operations list response", response = CustomerResponse.class, responseContainer = "List")})
+    @ApiOperation(value = "",
+                  nickname = "getAllCustomers",
+                  notes = "Returns all the customers",
+                  response = CustomerResponse.class,
+                  responseContainer = "List",
+                  tags = {"customers",}) @ApiResponses(value = {@ApiResponse(code = 200,
+                                                                             message = "Successful customer operations list response",
+                                                                             response = CustomerResponse.class,
+                                                                             responseContainer = "List")})
     @RequestMapping(value = "/customers",
-            produces = {"application/json"},
-            method = RequestMethod.GET)
-    ResponseEntity<List<CustomerResponse>> getAllCustomers();
+                    produces = {"application/json"},
+                    method = RequestMethod.GET) ResponseEntity<List<CustomerResponse>> getAllCustomers();
 
 
-    @ApiOperation(value = "", nickname = "getAllItemsInCart", notes = "Returns all the items in the cart", response = CartResponse.class, tags = {"cart",})
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful cart operations response", response = CartResponse.class),
-            @ApiResponse(code = 404, message = "ID not found")})
-    @RequestMapping(value = "/customers/{customerid}/cart",
-            produces = {"application/json"},
-            method = RequestMethod.GET)
-    ResponseEntity<CartResponse> getAllItemsInCart(@ApiParam(value = "Customer identifier.", required = true) @PathVariable("customerid") String customerid
-    );
+    @ApiOperation(value = "",
+                  nickname = "getAllItemsInCart",
+                  notes = "Returns all the items in the cart",
+                  response = CartResponse.class,
+                  tags = {"cart",}) @ApiResponses(value = {@ApiResponse(code = 200,
+                                                                        message = "Successful cart operations response",
+                                                                        response = CartResponse.class),
+            @ApiResponse(code = 404,
+                         message = "ID not found")}) @RequestMapping(value = "/customers/{customerid}/cart",
+                                                                     produces = {"application/json"},
+                                                                     method = RequestMethod.GET)
+    ResponseEntity<CartResponse> getAllItemsInCart(@ApiParam(value = "Customer identifier.",
+                                                             required = true) @PathVariable("customerid") String customerid);
 
 
-    @ApiOperation(value = "", nickname = "getAllOrdersOfCustomer", notes = "Returns all orders of a customer", response = OrderResponse.class, responseContainer = "List", tags = {"orders",})
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful order operations list response", response = OrderResponse.class, responseContainer = "List"),
-            @ApiResponse(code = 404, message = "ID not found")})
-    @RequestMapping(value = "/customers/{customerid}/orders",
-            produces = {"application/json"},
-            method = RequestMethod.GET)
-    ResponseEntity<List<OrderResponse>> getAllOrdersOfCustomer(@ApiParam(value = "Customer identifier.", required = true) @PathVariable("customerid") String customerid
-    );
+    @ApiOperation(value = "",
+                  nickname = "getAllOrdersOfCustomer",
+                  notes = "Returns all orders of a customer",
+                  response = OrderResponse.class,
+                  responseContainer = "List",
+                  tags = {"orders",}) @ApiResponses(value = {@ApiResponse(code = 200,
+                                                                          message = "Successful order operations list response",
+                                                                          response = OrderResponse.class,
+                                                                          responseContainer = "List"),
+            @ApiResponse(code = 404,
+                         message = "ID not found")}) @RequestMapping(value = "/customers/{customerid}/orders",
+                                                                     produces = {"application/json"},
+                                                                     method = RequestMethod.GET)
+    ResponseEntity<List<OrderResponse>> getAllOrdersOfCustomer(@ApiParam(value = "Customer identifier.",
+                                                                         required = true) @PathVariable("customerid") String customerid);
 
 
-    @ApiOperation(value = "", nickname = "getOrderOfCustomerById", notes = "Returns the order of a customer by order ID", response = OrderResponse.class, tags = {"orders",})
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful order operations response", response = OrderResponse.class),
-            @ApiResponse(code = 404, message = "ID not found")})
-    @RequestMapping(value = "/customers/orders/{orderid}",
-            produces = {"application/json"},
-            method = RequestMethod.GET)
-    ResponseEntity<OrderResponse> getOrderOfCustomerById(@ApiParam(value = "Order identifier.", required = true) @PathVariable("orderid") UUID orderid
-    );
+    @ApiOperation(value = "",
+                  nickname = "getOrderOfCustomerById",
+                  notes = "Returns the order of a customer by order ID",
+                  response = OrderResponse.class,
+                  tags = {"orders",}) @ApiResponses(value = {@ApiResponse(code = 200,
+                                                                          message = "Successful order operations response",
+                                                                          response = OrderResponse.class),
+            @ApiResponse(code = 404,
+                         message = "ID not found")}) @RequestMapping(value = "/customers/orders/{orderid}",
+                                                                     produces = {"application/json"},
+                                                                     method = RequestMethod.GET)
+    ResponseEntity<OrderResponse> getOrderOfCustomerById(@ApiParam(value = "Order identifier.",
+                                                                   required = true) @PathVariable("orderid") UUID orderid);
 
 
-    @ApiOperation(value = "", nickname = "importCustomersViaList", notes = "Imports customer via list", tags = {"customers",})
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successfully imported"),
-            @ApiResponse(code = 400, message = "Request invalid")})
-    @RequestMapping(value = "/customers/import/list",
-            consumes = {"application/json"},
-            method = RequestMethod.POST)
-    ResponseEntity<Void> importCustomersViaList(@ApiParam(value = "", required = true) @Valid @RequestBody List<CustomerRequest> body
-    );
+    @ApiOperation(value = "",
+                  nickname = "importCustomersViaList",
+                  notes = "Imports customer via list",
+                  tags = {"customers",}) @ApiResponses(value = {@ApiResponse(code = 201,
+                                                                             message = "Successfully imported"),
+            @ApiResponse(code = 400,
+                         message = "Request invalid")}) @RequestMapping(value = "/customers/import/list",
+                                                                        consumes = {"application/json"},
+                                                                        method = RequestMethod.POST)
+    ResponseEntity<Void> importCustomersViaList(@ApiParam(value = "",
+                                                          required = true) @Valid @RequestBody List<CustomerRequest> body);
 
 
-    @ApiOperation(value = "", nickname = "placeOrder", notes = "Converts the cart into an order", response = OrderResponse.class, tags = {"cart",})
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful order operations response", response = OrderResponse.class),
-            @ApiResponse(code = 404, message = "ID not found")})
-    @RequestMapping(value = "/customers/{customerid}/cart/checkout",
-            produces = {"application/json"},
-            method = RequestMethod.POST)
-    ResponseEntity<OrderResponse> placeOrder(@ApiParam(value = "Customer identifier.", required = true) @PathVariable("customerid") String customerid
-    );
+    @ApiOperation(value = "",
+                  nickname = "placeOrder",
+                  notes = "Converts the cart into an order",
+                  response = OrderResponse.class,
+                  tags = {"cart",}) @ApiResponses(value = {@ApiResponse(code = 200,
+                                                                        message = "Successful order operations response",
+                                                                        response = OrderResponse.class),
+            @ApiResponse(code = 404,
+                         message = "ID not found")}) @RequestMapping(value = "/customers/{customerid}/cart/checkout",
+                                                                     produces = {"application/json"},
+                                                                     method = RequestMethod.POST)
+    ResponseEntity<OrderResponse> placeOrder(@ApiParam(value = "Customer identifier.",
+                                                       required = true) @PathVariable("customerid") String customerid);
 
 
-    @ApiOperation(value = "", nickname = "updateCustomer", notes = "Updates customer", response = CustomerResponse.class, tags = {"customers",})
-    @ApiResponses(value = {
-            @ApiResponse(code = 204, message = "Successful customer operations response", response = CustomerResponse.class),
-            @ApiResponse(code = 400, message = "Request invalid")})
-    @RequestMapping(value = "/customers",
-            produces = {"application/json"},
-            consumes = {"application/json"},
-            method = RequestMethod.PUT)
-    ResponseEntity<CustomerResponse> updateCustomer(@ApiParam(value = "", required = true) @Valid @RequestBody CustomerRequest body
-    );
+    @ApiOperation(value = "",
+                  nickname = "updateCustomer",
+                  notes = "Updates customer",
+                  response = CustomerResponse.class,
+                  tags = {"customers",}) @ApiResponses(value = {@ApiResponse(code = 204,
+                                                                             message = "Successful customer operations response",
+                                                                             response = CustomerResponse.class),
+            @ApiResponse(code = 400,
+                         message = "Request invalid")}) @RequestMapping(value = "/customers",
+                                                                        produces = {"application/json"},
+                                                                        consumes = {"application/json"},
+                                                                        method = RequestMethod.PUT)
+    ResponseEntity<CustomerResponse> updateCustomer(@ApiParam(value = "",
+                                                              required = true) @Valid @RequestBody CustomerRequest body);
 
 
-    @ApiOperation(value = "", nickname = "updateItemQuantity", notes = "Changes the quantity of item in the cart", response = CartResponse.class, tags = {"items",})
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful cart operations response", response = CartResponse.class),
-            @ApiResponse(code = 404, message = "ID not found")})
+    @ApiOperation(value = "",
+                  nickname = "updateItemQuantity",
+                  notes = "Changes the quantity of item in the cart",
+                  response = CartResponse.class,
+                  tags = {"items",}) @ApiResponses(value = {@ApiResponse(code = 200,
+                                                                         message = "Successful cart operations response",
+                                                                         response = CartResponse.class),
+            @ApiResponse(code = 404,
+                         message = "ID not found")})
     @RequestMapping(value = "/customers/{customerid}/cart/items/{productid}",
-            produces = {"application/json"},
-            method = RequestMethod.PATCH)
-    ResponseEntity<CartResponse> updateItemQuantity(@ApiParam(value = "Customer identifier.", required = true) @PathVariable("customerid") String customerid
-            , @ApiParam(value = "Product identifier.", required = true) @PathVariable("productid") UUID productid
-            , @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "quantity", required = true) Integer quantity
-    );
+                    produces = {"application/json"},
+                    method = RequestMethod.PATCH) ResponseEntity<CartResponse> updateItemQuantity(
+            @ApiParam(value = "Customer identifier.",
+                      required = true) @PathVariable("customerid") String customerid,
+            @ApiParam(value = "Product identifier.",
+                      required = true) @PathVariable("productid") UUID productid, @NotNull @ApiParam(value = "",
+                                                                                                     required = true) @Valid @RequestParam(value = "quantity",
+                                                                                                                                           required = true) Integer quantity);
 
 }

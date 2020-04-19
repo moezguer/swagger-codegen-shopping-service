@@ -21,11 +21,9 @@ public class ApiOriginFilter implements javax.servlet.Filter {
         chain.doFilter(request, response);
     }
 
-    @Override
-    public void destroy() {
+    @Override public void destroy() {
     }
 
-    @Override
-    public void init(final FilterConfig filterConfig) throws ServletException {
+    @Override public void init(final FilterConfig filterConfig) throws ServletException {
     }
 }

@@ -33,69 +33,57 @@ public class CustomInstantDeserializer<T extends Temporal> extends ThreeTenDateT
 
     public static final CustomInstantDeserializer<Instant> INSTANT =
             new CustomInstantDeserializer<Instant>(Instant.class, DateTimeFormatter.ISO_INSTANT,
-                                                   new Function<TemporalAccessor, Instant>() {
-                                                       @Override
-                                                       public Instant apply(final TemporalAccessor temporalAccessor) {
-                                                           return Instant.from(temporalAccessor);
-                                                       }
-                                                   }, new Function<FromIntegerArguments, Instant>() {
-                @Override
-                public Instant apply(final FromIntegerArguments a) {
+                    new Function<TemporalAccessor, Instant>() {
+                        @Override public Instant apply(final TemporalAccessor temporalAccessor) {
+                            return Instant.from(temporalAccessor);
+                        }
+                    }, new Function<FromIntegerArguments, Instant>() {
+                @Override public Instant apply(final FromIntegerArguments a) {
                     return Instant.ofEpochMilli(a.value);
                 }
             }, new Function<FromDecimalArguments, Instant>() {
-                @Override
-                public Instant apply(final FromDecimalArguments a) {
+                @Override public Instant apply(final FromDecimalArguments a) {
                     return Instant.ofEpochSecond(a.integer, a.fraction);
                 }
             }, null);
 
     public static final CustomInstantDeserializer<OffsetDateTime> OFFSET_DATE_TIME =
             new CustomInstantDeserializer<OffsetDateTime>(OffsetDateTime.class, DateTimeFormatter.ISO_OFFSET_DATE_TIME,
-                                                          new Function<TemporalAccessor, OffsetDateTime>() {
-                                                              @Override
-                                                              public OffsetDateTime apply(
-                                                                      final TemporalAccessor temporalAccessor) {
-                                                                  return OffsetDateTime.from(temporalAccessor);
-                                                              }
-                                                          }, new Function<FromIntegerArguments, OffsetDateTime>() {
-                @Override
-                public OffsetDateTime apply(final FromIntegerArguments a) {
+                    new Function<TemporalAccessor, OffsetDateTime>() {
+                        @Override public OffsetDateTime apply(final TemporalAccessor temporalAccessor) {
+                            return OffsetDateTime.from(temporalAccessor);
+                        }
+                    }, new Function<FromIntegerArguments, OffsetDateTime>() {
+                @Override public OffsetDateTime apply(final FromIntegerArguments a) {
                     return OffsetDateTime.ofInstant(Instant.ofEpochMilli(a.value), a.zoneId);
                 }
             }, new Function<FromDecimalArguments, OffsetDateTime>() {
-                @Override
-                public OffsetDateTime apply(final FromDecimalArguments a) {
+                @Override public OffsetDateTime apply(final FromDecimalArguments a) {
                     return OffsetDateTime.ofInstant(Instant.ofEpochSecond(a.integer, a.fraction), a.zoneId);
                 }
             }, new BiFunction<OffsetDateTime, ZoneId, OffsetDateTime>() {
-                @Override
-                public OffsetDateTime apply(final OffsetDateTime d, final ZoneId z) {
-                    return d.withOffsetSameInstant(z.getRules().getOffset(d.toLocalDateTime()));
+                @Override public OffsetDateTime apply(final OffsetDateTime d, final ZoneId z) {
+                    return d.withOffsetSameInstant(z.getRules()
+                                                    .getOffset(d.toLocalDateTime()));
                 }
             });
 
     public static final CustomInstantDeserializer<ZonedDateTime> ZONED_DATE_TIME =
             new CustomInstantDeserializer<ZonedDateTime>(ZonedDateTime.class, DateTimeFormatter.ISO_ZONED_DATE_TIME,
-                                                         new Function<TemporalAccessor, ZonedDateTime>() {
-                                                             @Override
-                                                             public ZonedDateTime apply(
-                                                                     final TemporalAccessor temporalAccessor) {
-                                                                 return ZonedDateTime.from(temporalAccessor);
-                                                             }
-                                                         }, new Function<FromIntegerArguments, ZonedDateTime>() {
-                @Override
-                public ZonedDateTime apply(final FromIntegerArguments a) {
+                    new Function<TemporalAccessor, ZonedDateTime>() {
+                        @Override public ZonedDateTime apply(final TemporalAccessor temporalAccessor) {
+                            return ZonedDateTime.from(temporalAccessor);
+                        }
+                    }, new Function<FromIntegerArguments, ZonedDateTime>() {
+                @Override public ZonedDateTime apply(final FromIntegerArguments a) {
                     return ZonedDateTime.ofInstant(Instant.ofEpochMilli(a.value), a.zoneId);
                 }
             }, new Function<FromDecimalArguments, ZonedDateTime>() {
-                @Override
-                public ZonedDateTime apply(final FromDecimalArguments a) {
+                @Override public ZonedDateTime apply(final FromDecimalArguments a) {
                     return ZonedDateTime.ofInstant(Instant.ofEpochSecond(a.integer, a.fraction), a.zoneId);
                 }
             }, new BiFunction<ZonedDateTime, ZoneId, ZonedDateTime>() {
-                @Override
-                public ZonedDateTime apply(final ZonedDateTime zonedDateTime, final ZoneId zoneId) {
+                @Override public ZonedDateTime apply(final ZonedDateTime zonedDateTime, final ZoneId zoneId) {
                     return zonedDateTime.withZoneSameInstant(zoneId);
                 }
             });
@@ -118,8 +106,7 @@ public class CustomInstantDeserializer<T extends Temporal> extends ThreeTenDateT
         this.fromMilliseconds = fromMilliseconds;
         this.fromNanoseconds = fromNanoseconds;
         this.adjust = adjust == null ? new BiFunction<T, ZoneId, T>() {
-            @Override
-            public T apply(final T t, final ZoneId zoneId) {
+            @Override public T apply(final T t, final ZoneId zoneId) {
                 return t;
             }
         } : adjust;
@@ -134,16 +121,14 @@ public class CustomInstantDeserializer<T extends Temporal> extends ThreeTenDateT
         adjust = base.adjust;
     }
 
-    @Override
-    protected JsonDeserializer<T> withDateFormat(final DateTimeFormatter dtf) {
+    @Override protected JsonDeserializer<T> withDateFormat(final DateTimeFormatter dtf) {
         if (dtf == _formatter) {
             return this;
         }
         return new CustomInstantDeserializer<T>(this, dtf);
     }
 
-    @Override
-    public T deserialize(final JsonParser parser, final DeserializationContext context) throws IOException {
+    @Override public T deserialize(final JsonParser parser, final DeserializationContext context) throws IOException {
         //NOTE: Timestamps contain no timezone info, and are always in configured TZ. Only
         //string values have to be adjusted to the configured TZ.
         switch (parser.getCurrentTokenId()) {
@@ -163,7 +148,8 @@ public class CustomInstantDeserializer<T extends Temporal> extends ThreeTenDateT
             }
 
             case JsonTokenId.ID_STRING: {
-                String string = parser.getText().trim();
+                String string = parser.getText()
+                                      .trim();
                 if (string.length() == 0) {
                     return null;
                 }

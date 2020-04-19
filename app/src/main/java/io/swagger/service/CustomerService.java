@@ -1,17 +1,14 @@
 package io.swagger.service;
 
 import io.swagger.database.model.CustomerEntity;
-import io.swagger.database.model.ProductEntity;
 import io.swagger.database.repository.CustomerRepository;
 import io.swagger.dto.model.Customer;
-import io.swagger.dto.model.Product;
 import io.swagger.exception.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,15 +28,19 @@ public class CustomerService {
     }
 
     public void deleteCustomer(String email) {
-        customerRepository.delete(customerRepository.getCustomerEntityByEmail(email));
-    }
-
-    public Customer findCustomerById(String email) throws NotFoundException {
 
         final CustomerEntity customerEntity = customerRepository.findById(email)
-                                 .orElseThrow(() -> new NotFoundException(404, "Order Not Found"));
+                                                                .orElseThrow(() -> new NotFoundException(email));
+        customerRepository.delete(customerEntity);
+    }
+
+    public Customer findCustomerById(String email) {
+
+        final CustomerEntity customerEntity = customerRepository.findById(email)
+                                                                .orElseThrow(() -> new NotFoundException(email));
         final Customer customer = modelMapper.map(customerEntity, Customer.class);
-        return  customer;
+
+        return customer;
 
     }
 
@@ -51,26 +52,27 @@ public class CustomerService {
     }
 
     public void saveAll(List<Customer> customerList) {
-        final List<CustomerEntity>
-                customerEntityList = customerList.stream()
-                                                 .map(customer -> modelMapper.map(customer, CustomerEntity.class))
-                                                 .collect(Collectors.toList());
+        final List<CustomerEntity> customerEntityList = customerList.stream()
+                                                                    .map(customer -> modelMapper.map(customer,
+                                                                            CustomerEntity.class))
+                                                                    .collect(Collectors.toList());
         customerRepository.saveAll(customerEntityList);
     }
 
-    public Customer updateCustomer(Customer customer , String email) throws NotFoundException {
+    public Customer updateCustomer(Customer customer, String email) {
 
         final CustomerEntity customerEntity = modelMapper.map(customer, CustomerEntity.class);
 
         customerRepository.findById(email)
-                         .map(x -> {
-                             x.setName(customerEntity.getName());
-                             x.setSurname(customerEntity.getSurname());
-                             return customerRepository.save(x);
-                         }).orElseThrow( () -> new NotFoundException(404, "Customer not found"));
+                          .map(x -> {
+                              x.setName(customerEntity.getName());
+                              x.setSurname(customerEntity.getSurname());
+                              return customerRepository.save(x);
+                          })
+                          .orElseThrow(() -> new NotFoundException(email));
 
-        final Customer updatedCustomer = modelMapper.map(customerRepository.getCustomerEntityByEmail(email), Customer.class);
-
+        final Customer updatedCustomer =
+                modelMapper.map(customerRepository.getCustomerEntityByEmail(email), Customer.class);
         return updatedCustomer;
     }
 }

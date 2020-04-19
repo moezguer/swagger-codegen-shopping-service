@@ -83,8 +83,7 @@ public class CustomerResponse {
     }
 
 
-    @Override
-    public boolean equals(java.lang.Object o) {
+    @Override public boolean equals(java.lang.Object o) {
         if (this == o) {
             return true;
         }
@@ -96,19 +95,23 @@ public class CustomerResponse {
                Objects.equals(this.surname, customerResponse.surname);
     }
 
-    @Override
-    public int hashCode() {
+    @Override public int hashCode() {
         return Objects.hash(email, name, surname);
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("class CustomerResponse {\n");
 
-        sb.append("    email: ").append(toIndentedString(email)).append("\n");
-        sb.append("    name: ").append(toIndentedString(name)).append("\n");
-        sb.append("    surname: ").append(toIndentedString(surname)).append("\n");
+        sb.append("    email: ")
+          .append(toIndentedString(email))
+          .append("\n");
+        sb.append("    name: ")
+          .append(toIndentedString(name))
+          .append("\n");
+        sb.append("    surname: ")
+          .append(toIndentedString(surname))
+          .append("\n");
         sb.append("}");
         return sb.toString();
     }
@@ -121,6 +124,7 @@ public class CustomerResponse {
         if (o == null) {
             return "null";
         }
-        return o.toString().replace("\n", "\n    ");
+        return o.toString()
+                .replace("\n", "\n    ");
     }
 }

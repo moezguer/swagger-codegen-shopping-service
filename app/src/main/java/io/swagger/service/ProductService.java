@@ -4,12 +4,13 @@ import io.swagger.database.model.ProductEntity;
 import io.swagger.database.repository.ProductRepository;
 import io.swagger.dto.model.Product;
 import io.swagger.exception.NotFoundException;
+import io.swagger.util.CSVtoBean;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -30,21 +31,22 @@ public class ProductService {
         return modelMapper.map(savedProductEntity, Product.class);
     }
 
-    public boolean existById(UUID productId) {
-
-        return productRepository.existsById(productId);
-
-    }
 
     public void deleteById(UUID productId) {
 
-        productRepository.deleteById(productId);
+        if (findById(productId) != null) {
+            productRepository.deleteById(productId);
+        } else {
+            throw new NotFoundException(productId.toString());
+        }
 
     }
 
 
-    public Product getById(UUID productId) {
-        final Product product = modelMapper.map(productRepository.getById(productId), Product.class);
+    public Product findById(UUID productId) {
+        final Product product = modelMapper.map(productRepository.findById(productId)
+                                                                 .orElseThrow(() -> new NotFoundException(
+                                                                         productId.toString())), Product.class);
         return product;
     }
 
@@ -52,7 +54,8 @@ public class ProductService {
 
         final List<Product> productList = productRepository.findAll()
                                                            .stream()
-                                                           .map(productEntity -> modelMapper.map(productEntity, Product.class))
+                                                           .map(productEntity -> modelMapper.map(productEntity,
+                                                                   Product.class))
                                                            .collect(Collectors.toList());
 
         return productList;
@@ -63,14 +66,14 @@ public class ProductService {
 
         final List<ProductEntity> productEntities = productList.stream()
                                                                .map(product -> modelMapper.map(product,
-                                                                                               ProductEntity.class))
+                                                                       ProductEntity.class))
                                                                .collect(Collectors.toList());
 
         productRepository.saveAll(productEntities);
 
     }
 
-    public Product updateProduct(Product product, UUID productId) throws NotFoundException {
+    public Product updateProduct(Product product, UUID productId) {
 
         final ProductEntity productEntity = modelMapper.map(product, ProductEntity.class);
 
@@ -80,10 +83,24 @@ public class ProductService {
                              x.setPrice(productEntity.getPrice());
                              x.setCurrency(productEntity.getCurrency());
                              return productRepository.save(x);
-                         }).orElseThrow( () -> new NotFoundException(404, "Product not found"));
+                         })
+                         .orElseThrow(() -> new NotFoundException(productId.toString()));
 
         final Product outputProduct = modelMapper.map(productRepository.findById(productId), Product.class);
 
         return outputProduct;
+    }
+
+    public void saveAllViaCSV() throws IOException {
+        List<Product> productList = new CSVtoBean().setCsvToBean()
+                                                   .stream()
+                                                   .map(row -> modelMapper.map(row, Product.class))
+                                                   .collect(Collectors.toList());
+        List<ProductEntity> productEntityList = productList.stream()
+                                                           .map(product -> modelMapper.map(product,
+                                                                   ProductEntity.class))
+                                                           .collect(Collectors.toList());
+        productRepository.saveAll(productEntityList);
+
     }
 }

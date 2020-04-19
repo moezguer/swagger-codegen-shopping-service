@@ -26,12 +26,13 @@ public class OrderEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(length=16)
+    @Column(length = 16)
     private UUID id;
 
     private OffsetDateTime dateTime;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
+    @OneToMany(cascade = CascadeType.ALL,
+               mappedBy = "order")
     private List<ItemEntity> orderItems;
 
     @ManyToOne(cascade = CascadeType.ALL)

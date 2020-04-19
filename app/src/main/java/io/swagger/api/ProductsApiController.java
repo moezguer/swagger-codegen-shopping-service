@@ -42,8 +42,8 @@ public class ProductsApiController implements ProductsApi {
         this.request = request;
     }
 
-    public ResponseEntity<ProductResponse> addProduct(
-            @ApiParam(value = "", required = true) @Valid @RequestBody ProductRequest body) {
+    public ResponseEntity<ProductResponse> addProduct(@ApiParam(value = "",
+                                                                required = true) @Valid @RequestBody ProductRequest body) {
 
         final Product product = modelMapper.map(body, Product.class);
 
@@ -55,37 +55,30 @@ public class ProductsApiController implements ProductsApi {
 
     }
 
-    public ResponseEntity<Void> deleteProduct(
-            @ApiParam(value = "Product identifier.", required = true) @PathVariable("productid") UUID productid) {
+    public ResponseEntity<Void> deleteProduct(@ApiParam(value = "Product identifier.",
+                                                        required = true) @PathVariable("productid") UUID productid) {
 
         productService.deleteById(productid);
         return new ResponseEntity<>(HttpStatus.RESET_CONTENT);
 
     }
 
-    public ResponseEntity<ProductResponse> getProductById(
-            @ApiParam(value = "Product identifier.", required = true) @PathVariable("productid") UUID productid) {
+    public ResponseEntity<ProductResponse> getProductById(@ApiParam(value = "Product identifier.",
+                                                                    required = true) @PathVariable("productid") UUID productid) {
 
-        if (productService.existById(productid)) {
+        final Product product = modelMapper.map(productService.findById(productid), Product.class);
+        final ProductResponse productResponse = modelMapper.map(product, ProductResponse.class);
+        return new ResponseEntity<ProductResponse>(productResponse, HttpStatus.OK);
 
-            final Product product = modelMapper.map(productService.getById(productid), Product.class);
-            final ProductResponse productResponse = modelMapper.map(product, ProductResponse.class);
-            return new ResponseEntity<ProductResponse>(productResponse, HttpStatus.OK);
-
-        } else {
-
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-        }
     }
 
     public ResponseEntity<List<ProductResponse>> getAllProducts() {
 
-        final List<ProductResponse>
-                productResponsesList = productService.findAll()
-                                                     .stream()
-                                                     .map(products -> modelMapper.map(products, ProductResponse.class))
-                                                     .collect(Collectors.toList());
+        final List<ProductResponse> productResponsesList = productService.findAll()
+                                                                         .stream()
+                                                                         .map(products -> modelMapper.map(products,
+                                                                                 ProductResponse.class))
+                                                                         .collect(Collectors.toList());
 
         return new ResponseEntity<List<ProductResponse>>(productResponsesList, HttpStatus.OK);
 
@@ -95,8 +88,8 @@ public class ProductsApiController implements ProductsApi {
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Void> importProductsViaList(
-            @ApiParam(value = "", required = true) @Valid @RequestBody List<ProductRequest> body) {
+    public ResponseEntity<Void> importProductsViaList(@ApiParam(value = "",
+                                                                required = true) @Valid @RequestBody List<ProductRequest> body) {
 
         final List<Product> products = body.stream()
                                            .map(productRequest -> modelMapper.map(productRequest, Product.class))
@@ -106,13 +99,14 @@ public class ProductsApiController implements ProductsApi {
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
-    public ResponseEntity<ProductResponse> updateProducts(
-            @ApiParam(value = "", required = true) @Valid @RequestBody ProductRequest body,
-            @ApiParam(value = "Product identifier.", required = true) @PathVariable("productid") UUID productid) {
-            final Product product = modelMapper.map(body, Product.class);
-            final ProductResponse productResponse =
-                    modelMapper.map(productService.updateProduct(product, productid), ProductResponse.class);
-            return new ResponseEntity<ProductResponse>(productResponse, HttpStatus.NO_CONTENT);
+    public ResponseEntity<ProductResponse> updateProducts(@ApiParam(value = "",
+                                                                    required = true) @Valid @RequestBody ProductRequest body,
+                                                          @ApiParam(value = "Product identifier.",
+                                                                    required = true) @PathVariable("productid") UUID productid) {
+        final Product product = modelMapper.map(body, Product.class);
+        final ProductResponse productResponse =
+                modelMapper.map(productService.updateProduct(product, productid), ProductResponse.class);
+        return new ResponseEntity<ProductResponse>(productResponse, HttpStatus.NO_CONTENT);
 
     }
 }

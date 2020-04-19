@@ -25,13 +25,14 @@ public class CartEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(length=16)
+    @Column(length = 16)
     private UUID cartId;
 
     @OneToOne(cascade = CascadeType.ALL)
     private CustomerEntity customer;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
+    @OneToMany(cascade = CascadeType.ALL,
+               mappedBy = "cart")
     private List<ItemEntity> cartItems;
 
 }

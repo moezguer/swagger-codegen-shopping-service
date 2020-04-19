@@ -33,8 +33,7 @@ public class ItemResponse {
      **/
     @ApiModelProperty(value = "")
 
-    @Valid
-    public UUID getProductId() {
+    @Valid public UUID getProductId() {
         return productId;
     }
 
@@ -63,8 +62,7 @@ public class ItemResponse {
     }
 
 
-    @Override
-    public boolean equals(java.lang.Object o) {
+    @Override public boolean equals(java.lang.Object o) {
         if (this == o) {
             return true;
         }
@@ -76,18 +74,20 @@ public class ItemResponse {
                Objects.equals(this.quantity, itemResponse.quantity);
     }
 
-    @Override
-    public int hashCode() {
+    @Override public int hashCode() {
         return Objects.hash(productId, quantity);
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("class ItemResponse {\n");
 
-        sb.append("    productId: ").append(toIndentedString(productId)).append("\n");
-        sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
+        sb.append("    productId: ")
+          .append(toIndentedString(productId))
+          .append("\n");
+        sb.append("    quantity: ")
+          .append(toIndentedString(quantity))
+          .append("\n");
         sb.append("}");
         return sb.toString();
     }
@@ -100,6 +100,7 @@ public class ItemResponse {
         if (o == null) {
             return "null";
         }
-        return o.toString().replace("\n", "\n    ");
+        return o.toString()
+                .replace("\n", "\n    ");
     }
 }

@@ -18,8 +18,10 @@ io/swagger/database/model/CustomerEntity.class
 io/swagger/dto/model/Customer.class
 io/swagger/exception/ApiException.class
 io/swagger/database/model/ProductEntity$ProductEntityBuilder.class
+io/swagger/exception/GlobalExceptionHandler.class
 io/swagger/configuration/CustomInstantDeserializer$FromIntegerArguments.class
 io/swagger/database/repository/ItemRepository.class
+io/swagger/dto/request/ItemRequest$ItemRequestBuilder.class
 io/swagger/configuration/CustomInstantDeserializer$3.class
 io/swagger/database/repository/CartRepository.class
 io/swagger/Swagger2SpringBoot.class
@@ -57,13 +59,16 @@ io/swagger/configuration/CustomInstantDeserializer$8.class
 io/swagger/api/CustomersApi.class
 io/swagger/database/model/OrderEntity$OrderEntityBuilder.class
 io/swagger/configuration/CustomInstantDeserializer$11.class
+io/swagger/util/CSVtoBean.class
 io/swagger/api/ProductsApi.class
 io/swagger/service/ProductService.class
 io/swagger/configuration/JacksonConfiguration.class
 io/swagger/dto/model/Item$ItemBuilder.class
 io/swagger/service/ItemService.class
 io/swagger/configuration/CustomInstantDeserializer.class
+io/swagger/dto/request/CustomerRequest$CustomerRequestBuilder.class
 io/swagger/database/model/ProductEntity.class
+io/swagger/dto/request/ProductRequest$ProductRequestBuilder.class
 io/swagger/dto/model/Order.class
 io/swagger/dto/request/ProductRequest.class
 io/swagger/configuration/CustomInstantDeserializer$1.class

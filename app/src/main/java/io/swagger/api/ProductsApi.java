@@ -25,77 +25,111 @@ import java.util.UUID;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
                             date = "2020-03-27T16:32:59.829Z[GMT]")
-@Api(value = "products", description = "the products API")
+@Api(value = "products",
+     description = "the products API")
 public interface ProductsApi {
 
-    @ApiOperation(value = "", nickname = "addProduct", notes = "Adds product", response = ProductResponse.class,
+    @ApiOperation(value = "",
+                  nickname = "addProduct",
+                  notes = "Adds product",
+                  response = ProductResponse.class,
+                  tags = {"products",}) @ApiResponses(value = {@ApiResponse(code = 201,
+                                                                            message = "Successful product operations response",
+                                                                            response = ProductResponse.class),
+            @ApiResponse(code = 400,
+                         message = "Request invalid")}) @RequestMapping(value = "/products",
+                                                                        produces = {"application/json"},
+                                                                        consumes = {"application/json"},
+                                                                        method = RequestMethod.POST)
+    ResponseEntity<ProductResponse> addProduct(@ApiParam(value = "",
+                                                         required = true) @Valid @RequestBody ProductRequest body);
+
+
+    @ApiOperation(value = "",
+                  nickname = "deleteProduct",
+                  notes = "Deletes product by ID",
                   tags = {"products",})
-    @ApiResponses(value = {@ApiResponse(code = 201, message = "Successful product operations response",
-                                        response = ProductResponse.class),
-            @ApiResponse(code = 400, message = "Request invalid")})
-    @RequestMapping(value = "/products", produces = {"application/json"}, consumes = {"application/json"},
-                    method = RequestMethod.POST)
-    ResponseEntity<ProductResponse> addProduct(
-            @ApiParam(value = "", required = true) @Valid @RequestBody ProductRequest body);
+
+    @ApiResponses(value = {@ApiResponse(code = 205,
+                                        message = "OK"), @ApiResponse(code = 404,
+                                                                      message = "ID not found")})
+
+    @RequestMapping(value = "/products/{productid}",
+                    method = RequestMethod.DELETE) ResponseEntity<Void> deleteProduct(
+            @ApiParam(value = "Product identifier.",
+                      required = true) @PathVariable("productid") UUID productid);
 
 
-    @ApiOperation(value = "", nickname = "deleteProduct", notes = "Deletes product by ID", tags = {"products",})
-
-    @ApiResponses(
-            value = {@ApiResponse(code = 205, message = "OK"), @ApiResponse(code = 404, message = "ID not found")})
-
-    @RequestMapping(value = "/products/{productid}", method = RequestMethod.DELETE)
-
-    ResponseEntity<Void> deleteProduct(
-            @ApiParam(value = "Product identifier.", required = true) @PathVariable("productid") UUID productid);
-
-
-    @ApiOperation(value = "", nickname = "findProductById", notes = "Return product with the ID",
-                  response = ProductResponse.class, tags = {"products",})
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful product operations response",
-                                        response = ProductResponse.class),
-            @ApiResponse(code = 404, message = "ID not found")})
-    @RequestMapping(value = "/products/{productid}", produces = {"application/json"}, method = RequestMethod.GET)
-    ResponseEntity<ProductResponse> getProductById(
-            @ApiParam(value = "Product identifier.", required = true) @PathVariable("productid") UUID productid);
+    @ApiOperation(value = "",
+                  nickname = "findProductById",
+                  notes = "Return product with the ID",
+                  response = ProductResponse.class,
+                  tags = {"products",}) @ApiResponses(value = {@ApiResponse(code = 200,
+                                                                            message = "Successful product operations response",
+                                                                            response = ProductResponse.class),
+            @ApiResponse(code = 404,
+                         message = "ID not found")}) @RequestMapping(value = "/products/{productid}",
+                                                                     produces = {"application/json"},
+                                                                     method = RequestMethod.GET)
+    ResponseEntity<ProductResponse> getProductById(@ApiParam(value = "Product identifier.",
+                                                             required = true) @PathVariable("productid") UUID productid);
 
 
-    @ApiOperation(value = "", nickname = "getAllProducts", notes = "Returns all the products", response = Product.class,
-                  responseContainer = "List", tags = {"products",})
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful product operations list response", response = Product.class,
-                         responseContainer = "List")})
-    @RequestMapping(value = "/products", produces = {"application/json"}, method = RequestMethod.GET)
-    ResponseEntity<List<ProductResponse>> getAllProducts();
+    @ApiOperation(value = "",
+                  nickname = "getAllProducts",
+                  notes = "Returns all the products",
+                  response = Product.class,
+                  responseContainer = "List",
+                  tags = {"products",}) @ApiResponses(value = {@ApiResponse(code = 200,
+                                                                            message = "Successful product operations list response",
+                                                                            response = Product.class,
+                                                                            responseContainer = "List")})
+    @RequestMapping(value = "/products",
+                    produces = {"application/json"},
+                    method = RequestMethod.GET) ResponseEntity<List<ProductResponse>> getAllProducts();
 
 
-    @ApiOperation(value = "", nickname = "importProductsViaFile", notes = "imports products via CSV file",
-                  tags = {"products",})
-    @ApiResponses(value = {@ApiResponse(code = 201, message = "Successfully imported"),
-            @ApiResponse(code = 400, message = "Request invalid")})
-    @RequestMapping(value = "/products/import/file/csv", consumes = {"application/octet-stream"},
-                    method = RequestMethod.POST)
+    @ApiOperation(value = "",
+                  nickname = "importProductsViaFile",
+                  notes = "imports products via CSV file",
+                  tags = {"products",}) @ApiResponses(value = {@ApiResponse(code = 201,
+                                                                            message = "Successfully imported"),
+            @ApiResponse(code = 400,
+                         message = "Request invalid")}) @RequestMapping(value = "/products/import/file/csv",
+                                                                        consumes = {"application/octet-stream"},
+                                                                        method = RequestMethod.POST)
     ResponseEntity<Void> importProductsViaFile(@ApiParam(value = "") @Valid @RequestBody Object body);
 
 
-    @ApiOperation(value = "", nickname = "importProductsViaList", notes = "imports products via list",
-                  tags = {"products",})
-    @ApiResponses(value = {@ApiResponse(code = 201, message = "Successfully imported"),
-            @ApiResponse(code = 400, message = "Request invalid")})
-    @RequestMapping(value = "/products/import/list", consumes = {"application/json"}, method = RequestMethod.POST)
-    ResponseEntity<Void> importProductsViaList(
-            @ApiParam(value = "", required = true) @Valid @RequestBody List<ProductRequest> body);
+    @ApiOperation(value = "",
+                  nickname = "importProductsViaList",
+                  notes = "imports products via list",
+                  tags = {"products",}) @ApiResponses(value = {@ApiResponse(code = 201,
+                                                                            message = "Successfully imported"),
+            @ApiResponse(code = 400,
+                         message = "Request invalid")}) @RequestMapping(value = "/products/import/list",
+                                                                        consumes = {"application/json"},
+                                                                        method = RequestMethod.POST)
+    ResponseEntity<Void> importProductsViaList(@ApiParam(value = "",
+                                                         required = true) @Valid @RequestBody List<ProductRequest> body);
 
 
-    @ApiOperation(value = "", nickname = "updateProducts", notes = "Updates product", response = ProductResponse.class,
-                  tags = {"products",})
-    @ApiResponses(value = {@ApiResponse(code = 204, message = "Successful product operations response",
-                                        response = ProductResponse.class),
-            @ApiResponse(code = 400, message = "Request invalid"), @ApiResponse(code = 404, message = "ID not found")})
-    @RequestMapping(value = "/products/{productid}", produces = {"application/json"}, consumes = {"application/json"},
-                    method = RequestMethod.PUT)
-    ResponseEntity<ProductResponse> updateProducts(
-            @ApiParam(value = "", required = true) @Valid @RequestBody ProductRequest body,
-            @ApiParam(value = "Product identifier.", required = true) @PathVariable("productid") UUID productid);
+    @ApiOperation(value = "",
+                  nickname = "updateProducts",
+                  notes = "Updates product",
+                  response = ProductResponse.class,
+                  tags = {"products",}) @ApiResponses(value = {@ApiResponse(code = 204,
+                                                                            message = "Successful product operations response",
+                                                                            response = ProductResponse.class),
+            @ApiResponse(code = 400,
+                         message = "Request invalid"), @ApiResponse(code = 404,
+                                                                    message = "ID not found")})
+    @RequestMapping(value = "/products/{productid}",
+                    produces = {"application/json"},
+                    consumes = {"application/json"},
+                    method = RequestMethod.PUT) ResponseEntity<ProductResponse> updateProducts(@ApiParam(value = "",
+                                                                                                         required = true) @Valid @RequestBody ProductRequest body,
+                                                                                               @ApiParam(value = "Product identifier.",
+                                                                                                         required = true) @PathVariable("productid") UUID productid);
 
 }

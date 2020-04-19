@@ -15,19 +15,25 @@ import springfox.documentation.spring.web.plugins.Docket;
 public class SwaggerDocumentationConfig {
 
     ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("Online Shopping").description("This is a sample shopping server. ")
-                                   .license("").licenseUrl("http://unlicense.org").termsOfServiceUrl("")
-                                   .version("1.0.0").contact(new Contact("", "", "")).build();
+        return new ApiInfoBuilder().title("Online Shopping")
+                                   .description("This is a sample shopping server. ")
+                                   .license("")
+                                   .licenseUrl("http://unlicense.org")
+                                   .termsOfServiceUrl("")
+                                   .version("1.0.0")
+                                   .contact(new Contact("", "", ""))
+                                   .build();
     }
 
-    @Bean
-    public Docket customImplementation() {
+    @Bean public Docket customImplementation() {
         return new Docket(DocumentationType.SWAGGER_2).select()
                                                       .apis(RequestHandlerSelectors.basePackage("io.swagger.api"))
-                                                      .build().directModelSubstitute(org.threeten.bp.LocalDate.class,
-                                                                                     java.sql.Date.class)
+                                                      .build()
+                                                      .directModelSubstitute(org.threeten.bp.LocalDate.class,
+                                                              java.sql.Date.class)
                                                       .directModelSubstitute(org.threeten.bp.OffsetDateTime.class,
-                                                                             java.util.Date.class).apiInfo(apiInfo());
+                                                              java.util.Date.class)
+                                                      .apiInfo(apiInfo());
     }
 
 }

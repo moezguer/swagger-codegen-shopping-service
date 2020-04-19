@@ -24,7 +24,7 @@ public class ItemEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(length=16)
+    @Column(length = 16)
     private UUID itemId;
 
     private Integer quantity;

@@ -40,8 +40,7 @@ public class ProductResponse {
      **/
     @ApiModelProperty(value = "")
 
-    @Valid
-    public UUID getId() {
+    @Valid public UUID getId() {
         return id;
     }
 
@@ -101,8 +100,7 @@ public class ProductResponse {
      **/
     @ApiModelProperty(value = "")
 
-    @Valid
-    public Currency getCurrency() {
+    @Valid public Currency getCurrency() {
         return currency;
     }
 
@@ -111,8 +109,7 @@ public class ProductResponse {
     }
 
 
-    @Override
-    public boolean equals(java.lang.Object o) {
+    @Override public boolean equals(java.lang.Object o) {
         if (this == o) {
             return true;
         }
@@ -125,20 +122,26 @@ public class ProductResponse {
                Objects.equals(this.currency, productResponse.currency);
     }
 
-    @Override
-    public int hashCode() {
+    @Override public int hashCode() {
         return Objects.hash(id, title, price, currency);
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("class ProductResponse {\n");
 
-        sb.append("    id: ").append(toIndentedString(id)).append("\n");
-        sb.append("    title: ").append(toIndentedString(title)).append("\n");
-        sb.append("    price: ").append(toIndentedString(price)).append("\n");
-        sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
+        sb.append("    id: ")
+          .append(toIndentedString(id))
+          .append("\n");
+        sb.append("    title: ")
+          .append(toIndentedString(title))
+          .append("\n");
+        sb.append("    price: ")
+          .append(toIndentedString(price))
+          .append("\n");
+        sb.append("    currency: ")
+          .append(toIndentedString(currency))
+          .append("\n");
         sb.append("}");
         return sb.toString();
     }
@@ -151,6 +154,7 @@ public class ProductResponse {
         if (o == null) {
             return "null";
         }
-        return o.toString().replace("\n", "\n    ");
+        return o.toString()
+                .replace("\n", "\n    ");
     }
 }

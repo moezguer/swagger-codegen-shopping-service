@@ -3,6 +3,7 @@ package io.swagger.service;
 import io.swagger.database.model.ItemEntity;
 import io.swagger.database.repository.ItemRepository;
 import io.swagger.dto.model.Item;
+import io.swagger.exception.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,6 @@ public class ItemService {
         final ItemEntity savedItemEntity = itemRepository.save(itemEntity);
         final Item savedItem = modelMapper.map(savedItemEntity, Item.class);
         return savedItem;
-
     }
 
     public void deleteListOfItems(List<Item> itemList) {
@@ -37,17 +37,39 @@ public class ItemService {
     }
 
     public List<Item> getItemEntitiesByCart_Customer_Email(String email) {
-        final List<ItemEntity> itemEntityList = itemRepository.getItemEntitiesByCart_Customer_Email(email);
-        final List<Item> returnedItemList = itemEntityList.stream()
-                                                          .map(itemEntity -> modelMapper.map(itemEntity, Item.class))
-                                                          .collect(Collectors.toList());
-        return returnedItemList;
+
+        final List<ItemEntity> itemEntityList = itemRepository.findItemEntitiesByCart_Customer_Email(email);
+
+        if (itemEntityList.isEmpty()) {
+            throw new NotFoundException(email);
+        } else {
+            final List<Item> returnedItemList = itemEntityList.stream()
+                                                              .map(itemEntity -> modelMapper.map(itemEntity,
+                                                                      Item.class))
+                                                              .collect(Collectors.toList());
+            return returnedItemList;
+        }
     }
 
-    public void deleteItem (String email, UUID productId){
+    public void deleteItem(String email, UUID productId) {
 
-        final ItemEntity itemEntity = itemRepository.getItemEntityByCart_Customer_EmailAndProduct_Id(email, productId);
-        itemRepository.delete(itemEntity);
+        final List<ItemEntity> itemEntityList =
+                itemRepository.findItemEntityByCart_Customer_EmailAndProduct_Id(email, productId);
+        if (itemEntityList.isEmpty()) {
+            throw new NotFoundException(productId.toString());
+        } else {
+            itemRepository.deleteAll(itemEntityList);
+        }
+    }
+
+    public void saveItemsToOrder(List<Item> itemsToBeSaved) {
+
+        final List<ItemEntity> itemEntityList = itemsToBeSaved.stream()
+                                                              .map(itemList -> modelMapper.map(itemList,
+                                                                      ItemEntity.class))
+                                                              .collect(Collectors.toList());
+        itemRepository.saveAll(itemEntityList);
+
     }
 
 

@@ -20,7 +20,6 @@ public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
-    private Object NotFoundException;
 
     public List<Order> getOrdersByCustomer_Email(String email) {
 
@@ -32,14 +31,13 @@ public class OrderService {
         return orderList;
     }
 
-    public Order getOrderById(UUID orderId) throws NotFoundException {
+    public Order getOrderById(UUID orderId) {
 
-        final OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new NotFoundException(404, "Order Not Found"));
+        final OrderEntity orderEntity = orderRepository.findById(orderId)
+                                                       .orElseThrow(() -> new NotFoundException(orderId.toString()));
         final Order order = modelMapper.map(orderEntity, Order.class);
         return order;
 
     }
-
-
 
 }

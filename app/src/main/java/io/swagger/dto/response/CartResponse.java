@@ -38,9 +38,7 @@ public class CartResponse {
      *
      * @return cartItems
      **/
-    @ApiModelProperty(value = "")
-    @Valid
-    public List<ItemResponse> getCartItems() {
+    @ApiModelProperty(value = "") @Valid public List<ItemResponse> getCartItems() {
         return cartItems;
     }
 
@@ -49,8 +47,7 @@ public class CartResponse {
     }
 
 
-    @Override
-    public boolean equals(final java.lang.Object o) {
+    @Override public boolean equals(final java.lang.Object o) {
         if (this == o) {
             return true;
         }
@@ -61,17 +58,17 @@ public class CartResponse {
         return Objects.equals(this.cartItems, cartResponse.cartItems);
     }
 
-    @Override
-    public int hashCode() {
+    @Override public int hashCode() {
         return Objects.hash(cartItems);
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("class CartResponse {\n");
 
-        sb.append("    cartItems: ").append(toIndentedString(cartItems)).append("\n");
+        sb.append("    cartItems: ")
+          .append(toIndentedString(cartItems))
+          .append("\n");
         sb.append("}");
         return sb.toString();
     }
@@ -84,6 +81,7 @@ public class CartResponse {
         if (o == null) {
             return "null";
         }
-        return o.toString().replace("\n", "\n    ");
+        return o.toString()
+                .replace("\n", "\n    ");
     }
 }

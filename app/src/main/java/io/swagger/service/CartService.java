@@ -1,11 +1,8 @@
 package io.swagger.service;
 
 import io.swagger.database.model.CartEntity;
-import io.swagger.database.model.ProductEntity;
 import io.swagger.database.repository.CartRepository;
-import io.swagger.database.repository.ProductRepository;
 import io.swagger.dto.model.Cart;
-import io.swagger.dto.model.Product;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +16,7 @@ public class CartService {
     @Autowired
     private CartRepository cartRepository;
 
-    public Cart getCartByCustomerEmail(String email){
+    public Cart getCartByCustomerEmail(String email) {
 
         final CartEntity returnedCartEntity = cartRepository.getCartEntityByCustomer_Email(email);
         final Cart returnedCart = modelMapper.map(returnedCartEntity, Cart.class);

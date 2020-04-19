@@ -29,7 +29,8 @@ public class CustomerEntity {
     @OneToOne(cascade = CascadeType.ALL)
     private CartEntity cart;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+    @OneToMany(cascade = CascadeType.ALL,
+               mappedBy = "customer")
     private List<OrderEntity> orders;
 
 

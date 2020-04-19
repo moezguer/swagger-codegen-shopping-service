@@ -44,8 +44,7 @@ public class ApiResponseMessage {
         this.message = message;
     }
 
-    @XmlTransient
-    public int getCode() {
+    @XmlTransient public int getCode() {
         return code;
     }
 
